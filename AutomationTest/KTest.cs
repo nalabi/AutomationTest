@@ -30,7 +30,7 @@ namespace AutomationTest
         }
 
         [TestCase]
-        public void TestCase()
+        public void TestCase1()
         {
           KPage test = new KPage();
 
