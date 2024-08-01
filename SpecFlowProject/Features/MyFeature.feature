@@ -2,7 +2,7 @@ Feature: UserLogin
 	Login Check in
 Background: 
  Given I loging with a registered user 
-@mytag @positive
+@mytag @positive@tc:12345
 Scenario: Check Login with a correct username and Password
 	Given I am in the Hotrave Web Login Page
 	When I enter UserName and Password 
