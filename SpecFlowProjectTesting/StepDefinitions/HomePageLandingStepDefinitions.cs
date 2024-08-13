@@ -22,7 +22,7 @@ namespace SpecFlowProjectTesting.StepDefinitions
         [Then(@"I should see the title ""([^""]*)""")]
         public void ThenIShouldSeeTheTitle(string p0)
         {
-            driver.FindElement(By.XPath("//a[@routerlink='/'][contains(.,'My Hot Rave')]"));
+            driver.FindElement(By.XPath("//input[contains(@name,'username')]")).SendKeys("rreeee");
         }
 
         [Then(@"I should see a call-to-action button")]
