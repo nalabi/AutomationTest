@@ -7,14 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="RestSharp" Version="111.4.1" />
     <PackageReference Include="Selenium.Support" Version="4.23.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.23.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="127.0.6533.9900" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="127.0.6533.11900" />
     <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
-    <PackageReference Include="SpecFlow.xUnit" Version="3.9.40" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
+    <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
+    <PackageReference Include="xunit" Version="2.9.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
   </ItemGroup>
 

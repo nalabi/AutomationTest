@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Newtonsoft.Json.Linq;
+using OpenQA.Selenium;
+using RestSharp;
 using SpecFlowProjectTesting.Models.UserModels;
 using System;
 using System.Collections.Generic;
@@ -11,56 +13,64 @@ namespace SpecFlowProjectTesting.StepDefinitions.APISteps
     [Binding]
     public class UserManagementAPIStepDefinitions
     {
-        private readonly HttpClient _client;
-        private HttpResponseMessage _response;
-        private string _token;
-
+        private RestClient _client;
+        private RestRequest _request;
+        private RestResponse _response;
+        private string _accessToken;
 
         public UserManagementAPIStepDefinitions()
         {
-                _client = new HttpClient { BaseAddress = new Uri("https://hotrave.herokuapp.com/") };
+            _client = new RestClient("https://hotrave.herokuapp.com/");
+
 
             UserLogin userLogin = new UserLogin();
         }
-        [Given(@"I have a registration request with username ""([^""]*)"" and password ""([^""]*)""")]
-        public void GivenIHaveARegistrationRequestWithUsernameAndPassword(string testuser, string p1)
+        [Given(@"I have a registration request with username ""(.*)"" and password ""(.*)""")]
+        public void GivenIHaveARegistrationRequestWithUsernameAndPassword(string username, string password)
         {
-            throw new PendingStepException();
+            _request = new RestRequest("api/Account/register", Method.Post);
+            _request.AddHeader("Content-Type", "application/json");
+            _request.AddJsonBody(new { username = username, password = password });
         }
 
         [When(@"I send a registration request")]
         public void WhenISendARegistrationRequest()
         {
-            throw new PendingStepException();
+            _response = _client.Execute(_request);
         }
 
         [Then(@"the registration should be successful")]
         public void ThenTheRegistrationShouldBeSuccessful()
         {
-            throw new PendingStepException();
+            _response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var jsonResponse = JObject.Parse(_response.Content);
+            var success = jsonResponse["success"]?.ToObject<bool>() ?? false;
+            success.Should().BeTrue();
         }
 
-        [Given(@"I have login credentials with username ""([^""]*)"" and password ""([^""]*)""")]
-        public void GivenIHaveLoginCredentialsWithUsernameAndPassword(string testuser, string p1)
+        [Given(@"I have login credentials with username ""(.*)"" and password ""(.*)""")]
+        public void GivenIHaveLoginCredentialsWithUsernameAndPassword(string username, string password)
         {
-            throw new PendingStepException();
+            _request = new RestRequest("api/Account/login", Method.Post);
+            _request.AddHeader("Content-Type", "application/json");
+            _request.AddJsonBody(new { username = "Inno2", password = "1TestApp" });
         }
 
         [When(@"I send a login request")]
         public void WhenISendALoginRequest()
         {
-            throw new PendingStepException();
+            _response = _client.Execute(_request);
         }
 
         [Then(@"I should receive a token")]
         public void ThenIShouldReceiveAToken()
         {
-           
-           string response = ""
-            var responseData = _response.Content.ReadAsStringAsync().Result;
-            responseData.Should().NotBeNullOrEmpty("because a token should be returned");
-            _token = responseData;
-        }
+            Console.WriteLine("Response Content: " + _response.Content); // Print response content for debugging
 
+            _response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var jsonResponse = JObject.Parse(_response.Content);
+            _accessToken = jsonResponse["token"]?.ToString();
+            _accessToken.Should().NotBeNullOrEmpty();
+        }
     }
 }
