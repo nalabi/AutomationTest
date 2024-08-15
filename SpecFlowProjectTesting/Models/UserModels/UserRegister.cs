@@ -13,7 +13,7 @@ namespace SpecFlowProjectTesting.Models.UserModels
         public string username { get; set; }
         public string knownAs { get; set; }
         public string gender { get; set; }
-        public DateTime dateOfBirth { get; set; }
+        public string dateOfBirth { get; set; }
         public string city { get; set; }
         public string country { get; set; }
         public string password { get; set; }

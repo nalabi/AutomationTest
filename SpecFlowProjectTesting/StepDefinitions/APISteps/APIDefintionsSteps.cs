@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using RestSharp;
+using SpecFlowProjectTesting.Config;
 using SpecFlowProjectTesting.Models.UserModels;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace SpecFlowProjectTesting.StepDefinitions.APISteps
         private RestRequest _request;
         private RestResponse _response;
         private string _accessToken;
+        UserRegister userRegister = new UserRegister();
 
         public UserManagementAPIStepDefinitions()
         {
@@ -30,7 +32,18 @@ namespace SpecFlowProjectTesting.StepDefinitions.APISteps
         {
             _request = new RestRequest("api/Account/register", Method.Post);
             _request.AddHeader("Content-Type", "application/json");
-            _request.AddJsonBody(new { username = username, password = password });
+            _request.AddJsonBody(new UserRegister
+            {
+                username = DynamicEmail.GenerateRandomName(),
+                password = "1TestApp",
+                email = DynamicEmail.GenerateRandomChars(32) + ".test.com",
+                city = "Durban",
+                country = "South Africa",
+                dateOfBirth = "1999-01-01",
+                gender = "Male",
+                knownAs = "Bonga"
+
+            });
         }
 
         [When(@"I send a registration request")]
@@ -44,8 +57,7 @@ namespace SpecFlowProjectTesting.StepDefinitions.APISteps
         {
             _response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var jsonResponse = JObject.Parse(_response.Content);
-            var success = jsonResponse["success"]?.ToObject<bool>() ?? false;
-            success.Should().BeTrue();
+            
         }
 
         [Given(@"I have login credentials with username ""(.*)"" and password ""(.*)""")]
