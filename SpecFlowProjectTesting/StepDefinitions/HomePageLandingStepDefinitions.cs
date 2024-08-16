@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SpecFlowProjectTesting.Config;
 using System;
 using TechTalk.SpecFlow;
 
@@ -9,15 +10,20 @@ namespace SpecFlowProjectTesting.StepDefinitions
     public class HomePageLandingStepDefinitions
 
     {
-
+        WebUrls webUrls = new WebUrls();
+        [BeforeScenario]
+        public void SetupTestUsers()
+        {
+            driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl(webUrls.HotraveHomeUrl);
+        }
 
         IWebDriver driver;
         [Given(@"I am on the landing page")]
         public void GivenIAmOnTheLandingPage()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("https://hotrave.herokuapp.com/");
+       
         }
 
         [Then(@"I should see the title ""([^""]*)""")]
