@@ -9,7 +9,7 @@ namespace AutomationTest
     [TestFixture]   
     public class Tests
     {
-        string url = "https://www.kurtosys.com/";
+        string url = "https://hotrave.herokuapp.com/";
 
         [SetUp]
 
@@ -33,13 +33,8 @@ namespace AutomationTest
         public void TestCase1()
         {
           KPage test = new KPage();
-
-            test.linkTest.Click();
-            TestDriver.Driver.Navigate().GoToUrl("https://www.kurtosys.com/white-papers/");
-            test.whitePaper.Click();
-            TestDriver.Driver.SwitchTo().Frame(TestDriver.Driver.FindElement(By.CssSelector("iframe[type='text/html']")));
-            test.FillTheFields();
-            test.pLink.Click();
+            test.ValidLogins();
+           
            
         }
     }
